@@ -1,0 +1,14 @@
+version: "3"
+services:
+  onedev:
+    image: 1dev/server
+    ports:
+      - 6610:6610
+      - 6611:6611
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - onedev:/opt/onedev
+      # - ./onedev:/opt/onedev
+    restart: unless-stopped
+volumes:
+  onedev:

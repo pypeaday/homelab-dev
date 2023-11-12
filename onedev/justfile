@@ -1,0 +1,14 @@
+default: convert deploy viz
+
+create-ns:
+    kubectl create ns onedev
+convert:
+    kompose convert -o deployment.yaml
+deploy:
+    kubectl apply -f deployment.yaml -n onedev
+viz:
+    k8sviz -n status --kubeconfig $KUBECONFIG -t png -o onedev-k8s.png
+restart:
+    kubectl rollout restart -n status deployment/onedev
+delete:
+    kubectl delete all --all -n onedev --timeout=0s
