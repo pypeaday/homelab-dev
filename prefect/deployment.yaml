@@ -1,0 +1,384 @@
+apiVersion: v1
+items:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o deployment.yaml
+        kompose.version: 1.24.0 (4a2a0458)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: database
+      name: database
+    spec:
+      ports:
+        - name: "5432"
+          port: 5432
+          targetPort: 5432
+      selector:
+        io.kompose.service: database
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o deployment.yaml
+        kompose.version: 1.24.0 (4a2a0458)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: minio
+      name: minio
+    spec:
+      ports:
+        - name: "9000"
+          port: 9000
+          targetPort: 9000
+        - name: "9001"
+          port: 9001
+          targetPort: 9001
+      selector:
+        io.kompose.service: minio
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o deployment.yaml
+        kompose.version: 1.24.0 (4a2a0458)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: server
+      name: server
+    spec:
+      ports:
+        - name: "4200"
+          port: 4200
+          targetPort: 4200
+      selector:
+        io.kompose.service: server
+    status:
+      loadBalancer: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o deployment.yaml
+        kompose.version: 1.24.0 (4a2a0458)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: agent
+      name: agent
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: agent
+      strategy:
+        type: Recreate
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -o deployment.yaml
+            kompose.version: 1.24.0 (4a2a0458)
+          creationTimestamp: null
+          labels:
+            io.kompose.service: agent
+        spec:
+          containers:
+            - command:
+                - /opt/prefect/entrypoint.sh
+                - prefect
+                - agent
+                - start
+                - -q
+                - YOUR_WORK_QUEUE_NAME
+              env:
+                - name: PREFECT_API_URL
+                  value: http://server:4200/api
+              image: prefecthq/prefect:2.11.5-python3.11
+              name: agent
+              resources: {}
+              volumeMounts:
+                - mountPath: /var/run/docker.sock
+                  name: agent-claim0
+                  readOnly: true
+          restartPolicy: Always
+          volumes:
+            - name: agent-claim0
+              persistentVolumeClaim:
+                claimName: agent-claim0
+                readOnly: true
+    status: {}
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: agent-claim0
+      name: agent-claim0
+    spec:
+      accessModes:
+        - ReadOnlyMany
+      resources:
+        requests:
+          storage: 100Mi
+    status: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o deployment.yaml
+        kompose.version: 1.24.0 (4a2a0458)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: cli
+      name: cli
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: cli
+      strategy:
+        type: Recreate
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -o deployment.yaml
+            kompose.version: 1.24.0 (4a2a0458)
+          creationTimestamp: null
+          labels:
+            io.kompose.service: cli
+        spec:
+          containers:
+            - command:
+                - bash
+              env:
+                - name: PREFECT_API_URL
+                  value: http://server:4200/api
+              image: prefecthq/prefect:2.11.5-python3.11
+              name: cli
+              resources: {}
+              volumeMounts:
+                - mountPath: /root/flows
+                  name: cli-claim0
+              workingDir: /root/flows
+          restartPolicy: Always
+          volumes:
+            - name: cli-claim0
+              persistentVolumeClaim:
+                claimName: cli-claim0
+    status: {}
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: cli-claim0
+      name: cli-claim0
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 100Mi
+    status: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o deployment.yaml
+        kompose.version: 1.24.0 (4a2a0458)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: database
+      name: database
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: database
+      strategy:
+        type: Recreate
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -o deployment.yaml
+            kompose.version: 1.24.0 (4a2a0458)
+          creationTimestamp: null
+          labels:
+            io.kompose.service: database
+        spec:
+          containers:
+            - env:
+                - name: POSTGRES_DB
+                  value: prefect
+                - name: POSTGRES_PASSWORD
+                  value: postgres
+                - name: POSTGRES_USER
+                  value: postgres
+              image: postgres:15.2-alpine
+              name: database
+              ports:
+                - containerPort: 5432
+              resources: {}
+              volumeMounts:
+                - mountPath: /var/lib/postgresql/data
+                  name: db
+          restartPolicy: Always
+          volumes:
+            - name: db
+              persistentVolumeClaim:
+                claimName: db
+    status: {}
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: db
+      name: db
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 100Mi
+    status: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o deployment.yaml
+        kompose.version: 1.24.0 (4a2a0458)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: minio
+      name: minio
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: minio
+      strategy:
+        type: Recreate
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -o deployment.yaml
+            kompose.version: 1.24.0 (4a2a0458)
+          creationTimestamp: null
+          labels:
+            io.kompose.service: minio
+        spec:
+          containers:
+            - command:
+                - minio
+                - server
+                - --address
+                - 0.0.0.0:9000
+                - --console-address
+                - 0.0.0.0:9001
+                - /data
+              image: minio/minio:latest
+              name: minio
+              ports:
+                - containerPort: 9000
+                - containerPort: 9001
+              resources: {}
+              volumeMounts:
+                - mountPath: /data
+                  name: minio
+          restartPolicy: Always
+          volumes:
+            - name: minio
+              persistentVolumeClaim:
+                claimName: minio
+    status: {}
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: minio
+      name: minio
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 100Mi
+    status: {}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o deployment.yaml
+        kompose.version: 1.24.0 (4a2a0458)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: server
+      name: server
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          io.kompose.service: server
+      strategy:
+        type: Recreate
+      template:
+        metadata:
+          annotations:
+            kompose.cmd: kompose convert -o deployment.yaml
+            kompose.version: 1.24.0 (4a2a0458)
+          creationTimestamp: null
+          labels:
+            io.kompose.service: server
+        spec:
+          containers:
+            - command:
+                - /opt/prefect/entrypoint.sh
+                - prefect
+                - server
+                - start
+              env:
+                - name: PREFECT_API_DATABASE_CONNECTION_URL
+                  value: postgresql+asyncpg://postgres:postgres@database:5432/prefect
+                - name: PREFECT_API_URL
+                  value: http://127.0.0.1:4200/api
+                - name: PREFECT_SERVER_API_HOST
+                  value: 0.0.0.0
+                - name: PREFECT_UI_URL
+                  value: http://127.0.0.1:4200/api
+              image: prefecthq/prefect:2.11.5-python3.11
+              name: server
+              ports:
+                - containerPort: 4200
+              resources: {}
+              volumeMounts:
+                - mountPath: /root/.prefect
+                  name: prefect
+          restartPolicy: Always
+          volumes:
+            - name: prefect
+              persistentVolumeClaim:
+                claimName: prefect
+    status: {}
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: prefect
+      name: prefect
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 100Mi
+    status: {}
+kind: List
+metadata: {}
+
