@@ -1,0 +1,17 @@
+create-ns:
+  kubectl create namespace prefect || echo "namespace exists"
+
+install-server:
+  helm install prefect-server prefect/prefect-server --namespace=prefect
+
+install-worker:
+  helm install prefect-worker prefect/prefect-worker --namespace=prefect -f worker.values.yaml
+
+generate-api-key:
+  echo -n "your-prefect-self-hosted-cloud-api-key" | base64
+
+create-secret:
+  kubectl apply --namespace=prefect -f api-key.yaml
+
+update-values:
+  kubectl apply -f server.values.yaml -f worker.values.yaml

@@ -1,0 +1,6 @@
+worker:
+  apiConfig: server
+  config:
+    workPool: default-agent-pool
+  serverApiConfig:
+    apiUrl: "http://localhost:4200"
