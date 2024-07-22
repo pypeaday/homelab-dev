@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: Secret
-metadata:
-  name: prefect-api-key
-  namespace: prefect
-type: Opaque
-data:
-  key: eW91ci1wcmVmZWN0LXNlbGYtaG9zdGVkLWNsb3VkLWFwaS1rZXk=

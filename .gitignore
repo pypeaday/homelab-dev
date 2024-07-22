@@ -1,2 +1,5 @@
 terraform-argocd-openfass/.terraform
 terraform-argocd-openfass/.tf.vars
+k8s/prefect-helm/api-key.yaml
+k8s/terraform-argocd-openfass/.tf.vars
+k8s/onedev/id_rsa

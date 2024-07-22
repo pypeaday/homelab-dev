@@ -1,0 +1,10 @@
+copy-to-server:
+  rsync -aPL /home/nic/personal/homelab-dev/archivebox/ nic@koober:/home/nic/personal/homelab-dev/archivebox
+
+setup:
+  rsync -aPL /home/nic/personal/homelab-dev/archivebox/ nic@koober:/home/nic/personal/homelab-dev/archivebox
+  DOCKER_HOST="ssh://koober" docker-compose run archivebox init --setup
+
+deploy:
+  rsync -aPL /home/nic/personal/homelab-dev/archivebox/ nic@koober:/home/nic/personal/homelab-dev/archivebox
+  DOCKER_HOST="ssh://koober" docker-compose up -d
