@@ -1,0 +1,2 @@
+[appServerPrd]
+ghost ansible_host=ghost ansible_user=nic

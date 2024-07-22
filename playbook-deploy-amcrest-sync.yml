@@ -1,0 +1,4 @@
+- hosts: appServerPrd
+  become: yes
+  roles:
+    - amcrest-sync
