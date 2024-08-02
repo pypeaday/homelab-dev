@@ -1,0 +1,3 @@
+
+launch-amcrest-sync:
+    ansible-playbook ./playbooks/playbook-deploy-amcrest-sync.yml -K -i inventory/hosts --limit production

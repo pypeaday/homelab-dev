@@ -2,6 +2,8 @@
 
 This sub-folder is the ansible deployment I am migrating to from Ansible-NAS
 
+The Ansible-NAS project is great, I just want to tinker quite a bit more with each container now so I've taken a lot of the setup and design philosophy from that project to implement a solution closer to my end-goal.
+
 ## Goals
 
 - Use tailscale sidecars with containers to remove as many public facing services as is reasonable
