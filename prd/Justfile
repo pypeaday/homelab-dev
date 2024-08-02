@@ -1,3 +1,5 @@
+launch-frigate:
+    ansible-playbook ./playbooks/deploy-applications.yaml -i inventory/all/hosts --limit production --tags frigate
 
 launch-amcrest-sync:
-    ansible-playbook ./playbooks/playbook-deploy-amcrest-sync.yml -K -i inventory/hosts --limit production
+    ansible-playbook ./playbooks/playbook-deploy-amcrest-sync.yml -K -i inventory/all/hosts --limit production
