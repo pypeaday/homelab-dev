@@ -14,3 +14,4 @@ The Ansible-NAS project is great, I just want to tinker quite a bit more with ea
 - ZFS datasets are created
 - Any encryption is automatically decrypted
 - Systemd is setup with dependencies such that docker doesn't start until ZFS datasets are mounted
+- Bitwarden Secrets CLI is set. I'm using my .envrc file (ignored) to set my access token as well as an environment variable for the ansible vault key value in my vault.
