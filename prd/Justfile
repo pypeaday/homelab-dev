@@ -1,3 +1,9 @@
+test-ping-prd:
+    ansible-playbook ./playbooks/ping.yaml -i inventory/all/hosts --limit production
+
+test-ping-dev:
+    ansible-playbook ./playbooks/ping.yaml -i inventory/all/hosts --limit development
+
 launch-frigate:
     ansible-playbook ./playbooks/deploy-applications.yaml -i inventory/all/hosts --limit production --tags frigate 
 
