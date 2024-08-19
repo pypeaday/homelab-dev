@@ -15,3 +15,85 @@ The Ansible-NAS project is great, I just want to tinker quite a bit more with ea
 - Any encryption is automatically decrypted
 - Systemd is setup with dependencies such that docker doesn't start until ZFS datasets are mounted
 - Bitwarden Secrets CLI is set. I'm using my .envrc file (ignored) to set my access token as well as an environment variable for the ansible vault key value in my vault.
+
+## Setup
+
+### General
+
+### Users
+
+### Docker
+
+## Applications
+
+Here is a list of applications I run in production, I will monitor which ones get moved over via this list
+
+### Traefik
+
+### Portainer
+
+### minio
+
+### Jellystat
+
+### Jellyfin
+
+### Code Server
+
+### Stats Stack
+
+Grafana
+
+Telegraf
+
+Prometheus
+
+Smartctl
+
+### Ubooquity
+
+### *Arr
+
+Tdarr
+
+Sonarr
+
+Radarr
+
+Prowlarr
+
+Ombi
+
+Lidarr
+
+Readarr
+
+Transmission with OpenVPN
+
+### Gotify
+
+### Dashy
+
+### Netdata
+
+### Uptime Kuma
+
+### Linkding
+
+### Airsonic
+
+### Kanboard
+
+### Glnces
+
+### Cloud Commander
+
+### Paperless NGX
+
+### Frigate
+
+done
+
+### Nextcloud
+
+SMTP is handled via my Proton account

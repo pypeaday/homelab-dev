@@ -6,9 +6,10 @@
 ##   | |     __/ | |
 ##   |_|    |___/|_|
 ##
+## Assumes Tailscale connectivity
 
 [development]
-localhost ansible_connection=local
+localhost ansible_connection=koober ansible_ssh_private_key_file=/home/nic/.skm/koober/id_rsa
 
 [production]
 prod_server ansible_host=ghost

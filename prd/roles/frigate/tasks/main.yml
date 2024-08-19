@@ -19,8 +19,23 @@
         dest: "{{ frigate_config_directory }}/config.yml"
       when: not config_file_stat.stat.exists
       register: template_config
+    # Can't expose ports on frigate container and set network_mode for tailscale... need to figure that out
+    # Also bitwarden secrets integration is breaking somewhere in the ansible run, so I use it for ansible vault key with just, get the key then run ansible
+    # - name: Tailscale Sidecar
+    #   docker_container:
+    #     name: frigate-tailscale
+    #     image: tailscale/tailscale
+    #     hostname: frigate
+    #     volumes:
+    #       - "{{ frigate_config_directory }}/tailscale:/var/lib/tailscale"
+    #       - "/dev/net/tun:/dev/net/tun"
+    #     capabilities:
+    #       - neudo _admin
+    #       - sys_module
+    #     command: tailscaled
     - name: Frigate Docker Container
       docker_container:
+        # network_mode: container:tailscale
         name: frigate
         image: ghcr.io/blakeblackshear/frigate:stable
         pull: true
@@ -43,7 +58,7 @@
           - /dev/apex_0:/dev/apex_0 # passes a PCIe Coral, follow driver instructions here https://coral.ai/docs/m2/get-started/#2a-on-linux
           - /dev/dri/renderD128:/dev/dri/renderD128 # should pass through the AMD iGPU
           - /dev/dri/card0:/dev/dri/card0
-        #https://github.com/blakeblackshear/frigate/discussions/5392#discussioncomment-8571128
+        # https://github.com/blakeblackshear/frigate/discussions/5392#discussioncomment-8571128
         # this is not being applied
         # memory_swappiness: 0
         env:

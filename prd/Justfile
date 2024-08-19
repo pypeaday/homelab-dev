@@ -1,8 +1,8 @@
 launch-frigate:
-    ansible-playbook ./playbooks/deploy-applications.yaml -i inventory/all/hosts --limit production --tags frigate
+    ansible-playbook ./playbooks/deploy-applications.yaml -i inventory/all/hosts --limit production --tags frigate 
 
 launch-amcrest-sync:
-    ansible-playbook ./playbooks/playbook-deploy-amcrest-sync.yml -K -i inventory/all/hosts --limit production
+    ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags amcrest-sync
 
 get-vault-key:
     bws secret get $HOMELAB_BOT_VAULT_KEY_ID  | jq -r '.value'

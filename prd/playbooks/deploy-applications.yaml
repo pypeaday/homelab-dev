@@ -5,3 +5,6 @@
     - role: frigate
       tags:
         - frigate
+    - role: amcrest-sync
+      tags:
+        - amcrest-sync
