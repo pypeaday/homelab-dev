@@ -10,7 +10,7 @@
   git:
     repo: "https://github.com/pypeaday/amcrest_sync.git"
     dest: /opt/amcrest_sync
-  become: yes
+  become: true
   when: git_repo.stat.exists == False
 
 - name: Check if Docker image exists
@@ -22,7 +22,7 @@
   command: docker build -t amcrest_sync:latest .
   args:
     chdir: /opt/amcrest_sync/
-  become: yes
+  become: true
   when: docker_image.stdout == ""
 
 - name: Schedule cron job to run Docker container
@@ -30,4 +30,4 @@
     name: "Sync Amcrest Cameras"
     minute: "*/5"
     job: "docker run --rm amcrest_sync:latest"
-  become: yes
+  become: true
