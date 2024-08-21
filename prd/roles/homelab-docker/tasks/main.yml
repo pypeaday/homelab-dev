@@ -1,0 +1,45 @@
+---
+- name: Install python3-pip
+  ansible.builtin.apt:
+    name: python3-pip
+    state: present
+  register: result
+  until: result is succeeded
+
+- name: Remove docker-py python module
+  ansible.builtin.pip:
+    name: docker-py
+    state: absent
+  register: result
+  until: result is succeeded
+
+- name: Install docker python module
+  ansible.builtin.pip:
+    name: docker
+    state: present
+  register: result
+  until: result is succeeded
+
+- name: Create Docker home directory
+  ansible.builtin.file:
+    path: "{{ docker_home }}"
+    mode: "0755"
+    state: directory
+
+- name: Add user account to Docker group
+  ansible.builtin.user:
+    name: "{{ homelab_user }}"
+    groups: docker
+    append: true
+
+- name: Generate Docker daemon.json
+  ansible.builtin.copy:
+    dest: /etc/docker/daemon.json
+    content: "{{ docker_daemon_json | to_nice_json }}"
+  register: docker_config
+
+- name: Restart Docker # noqa no-handler
+  ansible.builtin.service:
+    name: docker
+    state: restarted
+  when: docker_config.changed

@@ -1,0 +1,57 @@
+---
+- name: Set login banner
+  ansible.builtin.copy:
+    src: motd.txt
+    dest: /etc/motd
+# - name: Enable Universe repository
+#   raw: apt-add-repository universe
+#   register: add_repo_result
+#   changed_when: "'distribution component enabled for all sources' in add_repo_result.stdout"
+#   until: add_repo_result.rc == 0
+#   retries: 3
+#   delay: 1
+- name: Add Universe repository
+  apt_repository:
+    repo: 'deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} universe'
+    state: present
+- name: Update apt-cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  register: result
+  until: result is succeeded
+- name: Upgrade all packages
+  apt:
+    upgrade: true
+    state: latest
+  when: keep_packages_updated
+  tags:
+    - skip_ansible_lint
+- name: Install some packages
+  become: true
+  ansible.builtin.apt:
+    name: "{{ homelab_extra_packages }}"
+    state: present
+  register: result
+  until: result is succeeded
+- name: Install LazyDocker
+  ansible.builtin.shell:
+    cmd: curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh
+      | bash
+  args:
+    creates: /usr/local/bin/lazydocker
+  environment:
+    DIR: /usr/local/bin
+- name: Set timezone to {{ homelab_timezone }}
+  community.general.timezone:
+    name: '{{ homelab_timezone }}'
+# I don't think I want this since I'll just use ZFS to serve SMB
+# - name: Permission share directories
+#   ansible.builtin.file:
+#     path: '{{ item.path }}'
+#     state: directory
+#     owner: ansible-nas
+#     group: ansible-nas
+#     mode: u=rwX,g=rwX,o=rX
+#     recurse: false
+#   loop: '{{ samba_shares }}'

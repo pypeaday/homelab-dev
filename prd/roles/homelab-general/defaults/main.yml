@@ -1,0 +1,17 @@
+---
+# Update all apt packages when playbook is run
+keep_packages_updated: false
+
+# Extra packages to install
+homelab_extra_packages:
+  - smartmontools
+  - htop
+  - zfsutils-linux
+  - bonnie++
+  - unzip
+  - lm-sensors
+  - ctop
+
+# Sets the timezone for your server
+# You can find a list here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+homelab_timezone: Etc/UTC

@@ -1,0 +1,25 @@
+---
+- name: Create application group
+  ansible.builtin.group:
+    name: "{{ homelab_group_name }}"
+    state: present
+
+- name: Create homelab-user
+  ansible.builtin.user:
+    name: "{{ homelab_user }}"
+    # uid/gid set to match existing perms before hogwarts -> ghost
+    uid: "{{ homelab_user_id }}"
+    state: present
+    system: true
+    update_password: on_create
+    create_home: true
+    group: "{{ homelab_group_name }}"
+    shell: /usr/sbin/nologin
+
+- name: Add www-data user to homelab group for Nextcloud purposes
+  user:
+    name: www-data
+    append: true
+    state: present
+    groups:
+      - "{{ homelab_group_name }}"
