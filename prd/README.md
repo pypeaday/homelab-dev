@@ -20,9 +20,15 @@ The Ansible-NAS project is great, I just want to tinker quite a bit more with ea
 
 ### General
 
+homelab-general sets up some basic server stuff
+
 ### Users
 
+homelab-users setups the `"{{ homelab_user }}"` user (default: `homelab-user`)
+
 ### Docker
+
+Installs docker and adds user to appropriate groups + installs LazyDocker
 
 ## Applications
 
@@ -71,6 +77,8 @@ Readarr
 Transmission with OpenVPN
 
 ### Gotify
+
+Done
 
 ### Dashy
 

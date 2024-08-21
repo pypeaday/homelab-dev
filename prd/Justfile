@@ -7,8 +7,11 @@ test-ping-dev:
 setup-dev-server:
     ansible-playbook -bK ./playbooks/server-setup.yaml -i inventory/all/hosts --limit development -v
 
+launch-gotify:
+    ansible-playbook ./playbooks/deploy-applications.yaml -i inventory/all/hosts --limit production --tags gotify
+
 launch-frigate:
-    ansible-playbook ./playbooks/deploy-applications.yaml -i inventory/all/hosts --limit production --tags frigate 
+    ansible-playbook ./playbooks/deploy-applications.yaml -i inventory/all/hosts --limit production --tags frigate
 
 launch-amcrest-sync:
     ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags amcrest-sync

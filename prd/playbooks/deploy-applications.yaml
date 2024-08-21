@@ -8,3 +8,6 @@
     - role: amcrest-sync
       tags:
         - amcrest-sync
+    - role: gotify
+      tags:
+        - gotify
