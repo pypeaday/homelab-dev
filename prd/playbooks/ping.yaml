@@ -4,5 +4,13 @@
   gather_facts: false
 
   tasks:
-    - name: Ping the host
-      ping:
+  - name: Ping the host
+    ping:
+
+  - name: Echo hostname of server
+    ansible.builtin.shell: hostname
+    register: hostname
+
+  - name: Print hostname
+    debug:
+      msg: "Hostname is {{ hostname.stdout }}"
