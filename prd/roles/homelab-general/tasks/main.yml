@@ -42,6 +42,8 @@
     creates: /usr/local/bin/lazydocker
   environment:
     DIR: /usr/local/bin
+  tags:
+    - skip_ansible_lint
 - name: Set timezone to {{ homelab_timezone }}
   community.general.timezone:
     name: '{{ homelab_timezone }}'
