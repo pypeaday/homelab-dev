@@ -11,3 +11,6 @@
     - role: gotify
       tags:
         - gotify
+    - role: manyfold
+      tags:
+        - manyfold
