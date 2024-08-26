@@ -45,6 +45,12 @@ Here is a list of applications I run in production, I will monitor which ones ge
 
 ### Traefik
 
+### Manyfold
+
+3D Printing library
+
+link: https://manyfold.app/
+
 ### Portainer
 
 ### minio
