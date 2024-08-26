@@ -2,12 +2,12 @@
 - name: Deploy Application Containers
   hosts: all
   roles:
-    - role: frigate
-      tags:
-        - frigate
     - role: amcrest-sync
       tags:
         - amcrest-sync
+    - role: frigate
+      tags:
+        - frigate
     - role: gotify
       tags:
         - gotify
