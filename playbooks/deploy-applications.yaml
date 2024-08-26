@@ -11,6 +11,9 @@
     - role: gotify
       tags:
         - gotify
+    - role: jellystat
+      tags:
+        - jellystat
     - role: manyfold
       tags:
         - manyfold

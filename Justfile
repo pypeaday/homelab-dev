@@ -23,6 +23,9 @@ launch-manyfold:
 launch-frigate:
     ansible-playbook ./playbooks/deploy-applications.yaml -i inventory/all/hosts --limit production --tags frigate
 
+launch-jellystat:
+    ansible-playbook ./playbooks/deploy-applications.yaml -i inventory/all/hosts --limit production --tags jellystat
+
 launch-amcrest-sync:
     ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags amcrest-sync
 

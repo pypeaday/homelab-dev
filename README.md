@@ -57,6 +57,8 @@ link: https://manyfold.app/
 
 ### Jellystat
 
+done
+
 ### Jellyfin
 
 ### Code Server
