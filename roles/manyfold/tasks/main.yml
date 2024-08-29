@@ -56,6 +56,7 @@
           traefik.http.routers.manyfold.tls.certresolver: letsencrypt
           traefik.http.routers.manyfold.tls.domains[0].main: "{{ homelab_domain }}"
           traefik.http.routers.manyfold.tls.domains[0].sans: "*.{{ homelab_domain }}"
+          traefik.http.routers.manyfold.middlewares: default-whitelist@file
           traefik.http.services.manyfold.loadbalancer.server.port: "3214"
         links:
           - manyfold-postgres:postgres
