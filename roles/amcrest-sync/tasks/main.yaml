@@ -29,5 +29,5 @@
   cron:
     name: "Sync Amcrest Cameras"
     minute: "*/5"
-    job: "docker run --rm amcrest_sync:latest"
+    job: "docker run --network host --rm amcrest_sync:latest"
   become: true
