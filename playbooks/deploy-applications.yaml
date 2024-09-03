@@ -17,3 +17,7 @@
     - role: manyfold
       tags:
         - manyfold
+    - role: vocal-remover-app
+      tags:
+        - vocal-remover
+        - vocal-remover-app

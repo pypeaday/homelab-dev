@@ -29,6 +29,9 @@ launch-jellystat:
 launch-amcrest-sync:
     ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags amcrest-sync
 
+launch-vocal-remover-app:
+    ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags vocal-remover-app
+
 get-vault-key:
     bws secret get $HOMELAB_BOT_VAULT_KEY_ID  | jq -r '.value'
 
