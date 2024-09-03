@@ -61,4 +61,8 @@
       community.docker.docker_container:
         name: "jellystat-db"
         state: absent
+    - name: Stop Jellystat
+      community.docker.docker_container:
+        name: "jellystat"
+        state: absent
   when: jellystat_enabled is false
