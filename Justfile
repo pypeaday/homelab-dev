@@ -29,6 +29,9 @@ launch-jellystat:
 launch-amcrest-sync:
     ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags amcrest-sync
 
+launch-container-registry:
+    ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags container-registry
+
 launch-vocal-remover-app:
     ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags vocal-remover-app
 

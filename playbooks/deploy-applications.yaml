@@ -5,6 +5,9 @@
     - role: amcrest-sync
       tags:
         - amcrest-sync
+    - role: container-registry
+      tags:
+        - container-registry
     - role: frigate
       tags:
         - frigate

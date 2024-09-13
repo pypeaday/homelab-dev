@@ -1,0 +1,46 @@
+---
+- name: Start Container Registry
+  block:
+    - name: Create Container Registry Directories
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ homelab_user }}"
+        group: "{{ homelab_group_name }}"
+        mode: u=rwX,g=rwX,o=rX
+      with_items:
+        - "{{ container_registry_data_directory }}"
+        - "{{ container_registry_data_directory }}/data"
+    - name: Container Registry Docker Container
+      community.docker.docker_container:
+        name: "{{ container_registry_container_name }}"
+        image: "{{ container_registry_image_name }}:{{ container_registry_image_version }}"
+        pull: true
+        volumes:
+          - "{{ container_registry_data_directory }}/data:/var/lib/registry:rw"
+          # - "{{ container_registry_data_directory }}/auth:/auth:rw"
+        ports:
+          - "{{ container_registry_port }}:5000"
+        env:
+          TZ: "{{ homelab_timezone }}"
+          PUID: "{{ container_registry_user_id }}"
+          PGID: "{{ container_registry_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ container_registry_memory }}"
+        labels:
+          traefik.enable: "{{ container_registry_available_externally | string }}"
+          traefik.http.routers.container_registry.rule: Host(`{{ container_registry_hostname }}.{{ homelab_domain }}`)
+          traefik.http.routers.container_registry.tls.certresolver: letsencrypt
+          traefik.http.routers.container_registry.tls.domains[0].main: "{{ homelab_domain }}"
+          traefik.http.routers.container_registry.tls.domains[0].sans: "*.{{ homelab_domain }}"
+          traefik.http.services.container_registry.loadbalancer.server.port: "5000"
+          traefik.http.routers.container_registry.middlewares: "default-whitelist@file"
+
+- name: Stop container_registry
+  block:
+    - name: Stop Container Registry
+      community.docker.docker_container:
+        name: "{{ container_registry_container_name }}"
+        state: absent
+  when: container_registry_enabled is false
