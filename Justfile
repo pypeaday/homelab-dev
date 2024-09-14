@@ -35,6 +35,9 @@ launch-container-registry:
 launch-vocal-remover-app:
     ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags vocal-remover-app
 
+launch-archivebox:
+    ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags archivebox
+
 get-vault-key:
     bws secret get $HOMELAB_BOT_VAULT_KEY_ID  | jq -r '.value'
 

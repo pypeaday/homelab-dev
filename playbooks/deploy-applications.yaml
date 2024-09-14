@@ -5,6 +5,9 @@
     - role: amcrest-sync
       tags:
         - amcrest-sync
+    - role: archivebox
+      tags:
+        - archivebox
     - role: container-registry
       tags:
         - container-registry
