@@ -1,0 +1,58 @@
+services:
+  app:
+    image: ghcr.io/manyfold3d/manyfold:latest
+    ports:
+      - 3214:3214
+    volumes:
+      - /home/nic/3d-printing:/libraries
+    environment:
+      DATABASE_ADAPTER: postgresql # mysql2 or sqlite3 are also supported
+      DATABASE_HOST: postgres-server
+      DATABASE_NAME: manyfold # or the path to the database file if using sqlite3
+      DATABASE_USER: manyfold
+      DATABASE_PASSWORD: password
+      SECRET_KEY_BASE: a_nice_long_random_string
+      REDIS_URL: redis://redis-server:6379/1
+      PUID: 1000
+      PGID: 1000
+      # For details of other optional environment variables, including features such
+      # as multiuser mode, visit https://manyfold.app/sysadmin/configuration.html
+    restart: unless-stopped
+    depends_on:
+      - postgres-server
+      - redis-server
+    networks:
+      - manyfold
+    # Optional, but recommended for better security
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETUID
+      - SETGID
+
+  postgres-server:
+    image: postgres:15
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: manyfold
+      POSTGRES_PASSWORD: password
+    restart: unless-stopped
+    networks:
+      - manyfold
+
+  redis-server:
+    image: redis:7
+    restart: unless-stopped
+    networks:
+      - manyfold
+
+volumes:
+  db_data:
+
+networks:
+  manyfold:
