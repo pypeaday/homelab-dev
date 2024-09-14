@@ -1,7 +1,7 @@
 # homelab-dev
 
 This is my homelab repo where I'm centralizing my application deployment for different things.
-I've been using Ansible-NAS as my primary way of deploying applications but I want to start messing with quite a bit more than is built-in and I'd like to not maintain a heavy fork of the repo. 
+I've been using Ansible-NAS as my primary way of deploying applications but I want to start messing with quite a bit more than is built-in and I'd like to not maintain a heavy fork of the repo.
 
 I will be migrating applications one by one into my own ansible roles in `./roles` and the playbook(s) will be in `./playbooks`.
 
@@ -42,6 +42,10 @@ Installs docker and adds user to appropriate groups + installs LazyDocker
 ## Applications
 
 Here is a list of applications I run in production, I will monitor which ones get moved over via this list
+
+### Container Registry + UI
+
+container registry is behind firewall, would like to add auth to push to it from GH actions so I don't have to setup my own self-hosted CI
 
 ### Traefik
 
