@@ -12,10 +12,6 @@
       with_items:
         - "{{ container_registry_data_directory }}"
         - "{{ container_registry_data_directory }}/data"
-    # for dynamiclly temlating out the CORS config
-    - name: Get hostname
-      shell: hostname
-      register: hostname_output
     - name: Container Registry Docker Container
       community.docker.docker_container:
         name: "{{ container_registry_container_name }}"
@@ -46,6 +42,9 @@
           traefik.http.routers.container_registry.tls.domains[0].sans: "*.{{ homelab_domain }}"
           traefik.http.services.container_registry.loadbalancer.server.port: "5000"
           traefik.http.routers.container_registry.middlewares: "default-whitelist@file"
+    - name: Get hostname
+      set_fact:
+        hostname_output: "{{ ansible_hostname }}"
     - name: Registry UI Docker Container
       community.docker.docker_container:
         name: "container-registry-ui"
@@ -61,7 +60,7 @@
           REGISTRY_TITLE: Docker Registry UI
           DELETE_IMAGES: "true"
           SHOW_CONTENT_DIGEST: "true"
-          NGINX_PROXY_PASS_URL: "http://{{ hostname_output.stdout }}:{{ container_registry_port }}"
+          NGINX_PROXY_PASS_URL: "http://{{ ansible_hostname }}:{{ container_registry_port }}"
           SHOW_CATALOG_NB_TAGS: "true"
           CATALOG_MIN_BRANCHES: "1"
           CATALOG_MAX_BRANCHES: "1"

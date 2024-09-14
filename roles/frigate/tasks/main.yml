@@ -22,7 +22,7 @@
     # Can't expose ports on frigate container and set network_mode for tailscale... need to figure that out
     # Also bitwarden secrets integration is breaking somewhere in the ansible run, so I use it for ansible vault key with just, get the key then run ansible
     # - name: Tailscale Sidecar
-    #   docker_container:
+    #   community.docker.docker_container:
     #     name: frigate-tailscale
     #     image: tailscale/tailscale
     #     hostname: frigate
@@ -34,7 +34,7 @@
     #       - sys_module
     #     command: tailscaled
     - name: Frigate Docker Container
-      docker_container:
+      community.docker.docker_container:
         # network_mode: container:tailscale
         name: frigate
         image: ghcr.io/blakeblackshear/frigate:stable
@@ -84,6 +84,6 @@
   when: frigate_enabled is false
   block:
     - name: Stop frigate
-      docker_container:
+      community.docker.docker_container:
         name: frigate
         state: absent

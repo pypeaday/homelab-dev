@@ -6,24 +6,19 @@
     path: /opt/amcrest_sync/.git
   register: git_repo
 
-- name: Clone Git repository
+- name: Clone Git repository  # noqa latest[git]
   git:
     repo: "https://github.com/pypeaday/amcrest_sync.git"
     dest: /opt/amcrest_sync
   become: true
-  when: git_repo.stat.exists == False
-
-- name: Check if Docker image exists
-  command: docker images -q amcrest_sync:latest
-  register: docker_image
-  ignore_errors: true
+  when: git_repo.stat.exists is False  # noqa no-changed-when
 
 - name: Build Docker image
   command: docker build -t amcrest_sync:latest .
   args:
     chdir: /opt/amcrest_sync/
   become: true
-  when: docker_image.stdout == ""
+  when: docker_image.stdout == ""  # noqa no-changed-when
 
 - name: Schedule cron job to run Docker container
   cron:
