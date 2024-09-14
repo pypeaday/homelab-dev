@@ -21,4 +21,3 @@ container_registry_image_version: "2"
 
 # specs
 container_registry_memory: "2g"
-
