@@ -45,6 +45,7 @@ echo $(basename $PWD) | lolcat
 source $envname/bin/activate || venvenvnew
 
 # For Bitwarden Secrets Manager
+# bitwarden login -> secrets manager -> projects -> <whatever project> -> machine accounts
 export BWS_ACCESS_TOKEN=YOUR-BWS-ACCESS-TOKEN
 export HOMELAB_BOT_VAULT_KEY_ID=KEY_ID_FOR_ANSIBLE_VAULT_KEY_IN_BWS
 ```
@@ -150,4 +151,16 @@ done
 
 ### Nextcloud
 
+Still in Ansible-NAS
 SMTP is handled via my Proton account
+
+### Immich (personal)
+
+Personal immich server uses a remote machine learning container on my desktop. That remote container is managed with compose, not ansible since I wasn't sure how to get the cuda stuff into an ansible task.
+
+The ML url needs to be changed in the immich webui if this container is launched - admin settings -> machine learning -> change url from default container name to host of the ML container
+
+
+### Immich (memes)
+
+This immich instance I want to be apart of an AI workflow: text photo or upload somehow to a place where I can trigger a vision gpt to give me a list of tags that make sense based on the existing tags I'm using in immich. then automatically upload to this immich server with the tags

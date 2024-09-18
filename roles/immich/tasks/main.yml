@@ -13,7 +13,7 @@
         - "{{ immich_data_directory }}"
         - "{{ immich_data_directory }}/data"
         - "{{ immich_data_directory }}/database"
-        - "{{ immich_data_directory }}/libraries"
+        - "{{ immich_upload_location }}"
     - name: Create Immich network
       community.docker.docker_network:
         name: "{{ immich_network_name }}"
@@ -70,7 +70,7 @@
         networks:
           - name: "{{ immich_network_name }}"
         volumes:
-          - "{{ immich_data_directory }}/libraries:/usr/src/app/upload:rw"
+          - "{{ immich_upload_location }}:/usr/src/app/upload:rw"
           - "{{ immich_data_directory }}/data:/data:rw"
           - "{{ immich_source_media_directory }}:/mnt/nextcloud:ro"
           - "/etc/localtime:/etc/localtime:ro"
@@ -114,7 +114,7 @@
         networks:
           - name: "{{ immich_network_name }}"
         volumes:
-          - "{{ immich_data_directory }}/libraries:/usr/src/app/upload:rw"
+          - "{{ immich_upload_location }}:/usr/src/app/upload:rw"
           - "{{ immich_data_directory }}/data:/data:rw"
           - "{{ immich_source_media_directory }}:/mnt/nextcloud:ro"
           - "/etc/localtime:/etc/localtime:ro"
