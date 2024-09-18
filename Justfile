@@ -18,7 +18,7 @@ launch-gotify:
     ansible-playbook ./playbooks/deploy-applications.yaml -i inventory/all/hosts --limit production --tags gotify
 
 launch-manyfold:
-    ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags manyfold -vv
+    ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags manyfold
 
 launch-frigate:
     ansible-playbook ./playbooks/deploy-applications.yaml -i inventory/all/hosts --limit production --tags frigate

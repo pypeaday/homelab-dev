@@ -34,7 +34,7 @@
         image: "{{ manyfold_image_name }}:{{ manyfold_image_version }}"
         pull: true
         ports:
-          - "{{ manyfold_port }}:3124"
+          - "{{ manyfold_port }}:3214"
         volumes:
           - "{{ manyfold_data_directory }}/libraries:/libraries:rw"
         env:
