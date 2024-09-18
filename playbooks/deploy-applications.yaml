@@ -17,6 +17,9 @@
     - role: gotify
       tags:
         - gotify
+    - role: immich
+      tags:
+        - immich
     - role: jellystat
       tags:
         - jellystat
