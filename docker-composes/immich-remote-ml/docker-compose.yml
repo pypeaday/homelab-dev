@@ -15,6 +15,7 @@ services:
     restart: always
     ports:
       - 3003:3003
+    network_mode: host
 
 volumes:
   model-cache:

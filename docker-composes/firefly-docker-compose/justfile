@@ -1,6 +1,0 @@
-deploy-firefly:
-   DOCKER_HOST="ssh://koober" docker-compose up -d
-
-kill-firefly:
-   DOCKER_HOST="ssh://koober" docker-compose down -v
-
