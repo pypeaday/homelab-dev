@@ -10,7 +10,7 @@ immich_database_port: "5432"
 # data directory
 immich_data_directory: "{{ docker_home }}/immich"
 # mount photos directory of home user of nextcloud-zfs dataset
-immich_source_media_directory: "{{ docker_home }}/nextcloud-zfs/nextcloud/data/home/files"
+immich_external_library: "/mnt/photos"
 
 # network
 immich_network_name: "immich-network"

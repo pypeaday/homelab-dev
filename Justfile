@@ -38,8 +38,16 @@ launch-vocal-remover-app:
 launch-archivebox:
     ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags archivebox
 
+# launching remote ML container just with compose - translating to ansible feels not worth it right now
 launch-immich:
     ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags immich
+    echo "make sure remote ML container is started with compose"
+    # cd ./docker-composes/immich-remote-ml
+    # docker compose up -d
+    # cd -
+
+launch-memes:
+    ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags immich-memes
 
 get-vault-key:
     bws secret get $HOMELAB_BOT_VAULT_KEY_ID  | jq -r '.value'

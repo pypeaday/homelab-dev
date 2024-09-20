@@ -20,6 +20,9 @@
     - role: immich
       tags:
         - immich
+    - role: immich-memes
+      tags:
+        - immich-memes
     - role: jellystat
       tags:
         - jellystat

@@ -72,7 +72,7 @@
         volumes:
           - "{{ immich_upload_location }}:/usr/src/app/upload:rw"
           - "{{ immich_data_directory }}/data:/data:rw"
-          - "{{ immich_source_media_directory }}:/mnt/nextcloud:ro"
+          - "{{ immich_external_library }}:/mnt/nextcloud:ro"
           - "/etc/localtime:/etc/localtime:ro"
         env:
           TZ: "{{ homelab_timezone }}"
@@ -116,7 +116,7 @@
         volumes:
           - "{{ immich_upload_location }}:/usr/src/app/upload:rw"
           - "{{ immich_data_directory }}/data:/data:rw"
-          - "{{ immich_source_media_directory }}:/mnt/nextcloud:ro"
+          - "{{ immich_external_library }}:/mnt/nextcloud:ro"
           - "/etc/localtime:/etc/localtime:ro"
         env:
           TZ: "{{ homelab_timezone }}"
@@ -143,33 +143,33 @@
         links:
           - immich-postgres:database
           - immich-redis:redis
-    - name: Immich Machine Learning Docker Container
-      community.docker.docker_container:
-        name: "immich-machine-learning"
-        image: "{{ immich_machine_learning_image_name }}:{{ immich_image_version }}"
-        pull: true
-        volumes:
-          - "{{ immich_data_directory }}/model-cache:/cache:rw"
-        env:
-          TZ: "{{ homelab_timezone }}"
-          PUID: "{{ immich_user_id }}"
-          PGID: "{{ immich_group_id }}"
-          DB_USERNAME: "{{ immich_database_username }}"
-          DB_PASSWORD: "{{ immich_database_password }}"
-          DB_DATABASE_NAME: "immich"
-          IMMICH_LOG_LOEVEL: "debug"
-          NODE_ENV: "production"
-          IMMICH_VERSION: "{{ immich_image_version }}"
-          REDIS_HOSTNAME: "redis"
-          DB_HOSTNAME: "database"
-          DB_PORT: "{{ immich_database_port }}"
-          JWT_SECRET: "{{ immich_jwt_secret }}"
-          ENABLE_MAPBOX: "{{ immich_enable_mapbox }}"
-          MAPBOX_KEY: "{{ immich_mapbox_key }}"
-          UPLOAD_LOCATION: "{{ immich_upload_location }}"
-          PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
-        restart_policy: unless-stopped
-        memory: "4g"
+    # - name: Immich Machine Learning Docker Container
+    #   community.docker.docker_container:
+    #     name: "immich-machine-learning"
+    #     image: "{{ immich_machine_learning_image_name }}:{{ immich_image_version }}"
+    #     pull: true
+    #     volumes:
+    #       - "{{ immich_data_directory }}/model-cache:/cache:rw"
+    #     env:
+    #       TZ: "{{ homelab_timezone }}"
+    #       PUID: "{{ immich_user_id }}"
+    #       PGID: "{{ immich_group_id }}"
+    #       DB_USERNAME: "{{ immich_database_username }}"
+    #       DB_PASSWORD: "{{ immich_database_password }}"
+    #       DB_DATABASE_NAME: "immich"
+    #       IMMICH_LOG_LOEVEL: "debug"
+    #       NODE_ENV: "production"
+    #       IMMICH_VERSION: "{{ immich_image_version }}"
+    #       REDIS_HOSTNAME: "redis"
+    #       DB_HOSTNAME: "database"
+    #       DB_PORT: "{{ immich_database_port }}"
+    #       JWT_SECRET: "{{ immich_jwt_secret }}"
+    #       ENABLE_MAPBOX: "{{ immich_enable_mapbox }}"
+    #       MAPBOX_KEY: "{{ immich_mapbox_key }}"
+    #       UPLOAD_LOCATION: "{{ immich_upload_location }}"
+    #       PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
+    #     restart_policy: unless-stopped
+    #     memory: "4g"
   when: immich_enabled is true
 - name: Stop Immich
   block:
@@ -181,10 +181,10 @@
       community.docker.docker_container:
         name: "immich-microservices"
         state: absent
-    - name: Stop Immich Machine Learning
-      community.docker.docker_container:
-        name: "immich-machine-learning"
-        state: absent
+    # - name: Stop Immich Machine Learning
+    #   community.docker.docker_container:
+    #     name: "immich-machine-learning"
+    #     state: absent
     - name: Stop Immich Postgres
       community.docker.docker_container:
         name: "immich-postgres"
