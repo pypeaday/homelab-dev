@@ -164,3 +164,9 @@ The ML url needs to be changed in the immich webui if this container is launched
 ### Immich (memes)
 
 This immich instance I want to be apart of an AI workflow: text photo or upload somehow to a place where I can trigger a vision gpt to give me a list of tags that make sense based on the existing tags I'm using in immich. then automatically upload to this immich server with the tags
+
+### StirlingTools PDF
+
+This is a web-based PDF utility
+
+[website](https://www.stirlingpdf.com/)

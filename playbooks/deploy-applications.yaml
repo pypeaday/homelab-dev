@@ -29,6 +29,9 @@
     - role: manyfold
       tags:
         - manyfold
+    - role: stirlingtools
+      tags:
+        - stirlingtools
     - role: vocal-remover-app
       tags:
         - vocal-remover

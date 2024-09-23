@@ -38,6 +38,9 @@ launch-vocal-remover-app:
 launch-archivebox:
     ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags archivebox
 
+launch-stirlingtools:
+    ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags stirlingtools
+
 # launching remote ML container just with compose - translating to ansible feels not worth it right now
 launch-immich:
     ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags immich
