@@ -25,13 +25,14 @@
           TZ: "{{ homelab_timezone }}"
           PUID: "{{ archivebox_user_id }}"
           PGID: "{{ archivebox_group_id }}"
-          ADMIN_USERNAME: "{{ archivebox_admin_user }}"            # create an admin user on first run with the given user/pass combo
+          ADMIN_USERNAME: "{{ archivebox_admin_user }}" # create an admin user on first run with the given user/pass combo
           ADMIN_PASSWORD: "{{ archivebox_admin_password }}"
-          CSRF_TRUSTED_ORIGINS: "https://{{ archivebox_hostname }}.{{ homelab_domain }}"  # REQUIRED for auth, REST API, etc. to work
+          CSRF_TRUSTED_ORIGINS: "https://{{ archivebox_hostname }}.{{ homelab_domain }}" # REQUIRED for auth, REST API, etc. to work
           ALLOWED_HOSTS: "*" # set this to the hostname(s) from your CSRF_TRUSTED_ORIGINS
           PUBLIC_INDEX: "False" # set to False to prevent anonymous users from viewing snapshot list
           PUBLIC_SNAPSHOTS: "False" # set to False to prevent anonymous users from viewing snapshot content
-          PUBLIC_ADD_VIEW: "False" # set to True to allow anonymous users to submit new URLs to archive
+          # set to True for using chrome extension
+          PUBLIC_ADD_VIEW: "True" # set to True to allow anonymous users to submit new URLs to archive
           SEARCH_BACKEND_ENGINE: "sonic" # tells ArchiveBox to use sonic container below for fast full-text search
           SEARCH_BACKEND_HOST_NAME: "sonic"
           SEARCH_BACKEND_PASSWORD: "{{ archivebox_search_backend_password }}"
@@ -67,7 +68,7 @@
     - name: Template Sonic Config
       template:
         src: sonic.cfg
-        dest: '{{ archivebox_data_directory }}/sonic.cfg'
+        dest: "{{ archivebox_data_directory }}/sonic.cfg"
       register: template_config
     - name: Sonic Docker Container
       community.docker.docker_container:
