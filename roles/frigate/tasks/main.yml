@@ -48,7 +48,7 @@
         mounts:
           - type: tmpfs
             target: /tmp/cache
-            tmpfs_size: 1000000000
+            tmpfs_size: 5000000000
         ports:
           - "{{ frigate_webui_port }}:5000"
           - "{{ frigate_rtsp_port }}:8554" # RTSP feeds
