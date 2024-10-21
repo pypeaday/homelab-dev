@@ -14,6 +14,9 @@ test-ping-dev:
 setup-dev-server:
     ansible-playbook -bK ./playbooks/server-setup.yaml -i inventory/all/hosts --limit development -v
 
+launch-chatgpt-telegram-bot:
+    ansible-playbook ./playbooks/deploy-applications.yaml -K -i inventory/all/hosts --limit production --tags chatgpt_telegram_bot
+
 launch-gotify:
     ansible-playbook ./playbooks/deploy-applications.yaml -i inventory/all/hosts --limit production --tags gotify
 

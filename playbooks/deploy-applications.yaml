@@ -8,6 +8,9 @@
     - role: archivebox
       tags:
         - archivebox
+    - role: chatgpt-telegram-bot
+      tags:
+        - chatgpt_telegram_bot
     - role: container-registry
       tags:
         - container-registry
