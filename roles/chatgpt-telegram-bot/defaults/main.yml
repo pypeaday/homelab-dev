@@ -24,3 +24,5 @@ chatgpt_telegram_bot_allowed_telegram_user_ids: "123"
 
 # config
 chatgpt_telegram_bot_plugins: weather
+
+chatgpt_telegram_bot_assistant_prompt: "You are a helpful assistant."

@@ -26,6 +26,7 @@
           TELEGRAM_BOT_TOKEN: "{{ chatgpt_telegram_bot_telegram_bot_token }}"
           ADMIN_USER_IDS: "{{ chatgpt_telegram_bot_admin_user_ids }}"
           ALLOWED_TELEGRAM_USER_IDS: "{{ chatgpt_telegram_bot_allowed_telegram_user_ids }}"
+          ASSISTANT_PROMPT: "{{ chatgpt_telegram_bot_assistant_prompt }}"
         restart_policy: unless-stopped
         memory: "{{ chatgpt_telegram_bot_memory }}"
   when: chatgpt_telegram_bot_enabled is true
