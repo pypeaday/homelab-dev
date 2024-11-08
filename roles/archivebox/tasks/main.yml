@@ -51,6 +51,24 @@
           traefik.http.routers.archivebox.tls.domains[0].sans: "*.{{ homelab_domain }}"
           traefik.http.services.archivebox.loadbalancer.server.port: "8000"
           # traefik.http.routers.archivebox.middlewares: "default-whitelist@file"
+    - name: Telegram Bot for Archivebox Docker Container
+      community.docker.docker_container:
+        name: archivebox-telegram-bot
+        image: "{{ archivebox_bot_image_name }}:{{ archivebox_bot_image_version }}"
+        pull: true
+        volumes:
+        # The bot assumes that Archivebox's index.sqlite3 db is in the same directory but it's only needed for reading the archive
+          - "{{ archivebox_data_directory }}/data:/data:ro"
+        env:
+          TZ: "{{ homelab_timezone }}"
+          PUID: "{{ archivebox_user_id }}"
+          PGID: "{{ archivebox_group_id }}"
+          ARCHIVEBOX_URL: "{{ archivebox_bot_archivebox_url }}"
+          CHATIDS: "{{ archivebox_bot_chatids }}"
+          BOT_TOKEN: "{{ archivebox_bot_bot_token }}"
+          CSRFMIDDLEWARETOKEN: "{{ archivebox_bot_csrfmiddlewaretoken }}"
+        restart_policy: unless-stopped
+        memory: "1g"
     - name: Archivebox Scheduler Docker Container
       community.docker.docker_container:
         name: archivebox-scheduler

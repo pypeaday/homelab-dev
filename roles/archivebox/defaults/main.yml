@@ -25,3 +25,12 @@ archivebox_image_version: "latest"
 
 # specs
 archivebox_memory: "2g"
+
+# bot
+
+archivebox_bot_image_name: "pypeaday/archivebox-telegram-bot"
+archivebox_bot_image_version: "latest"
+archivebox_bot_archivebox_url: "http://192.168.1.10:{{ archivebox_port }}"
+archivebox_bot_chatids: "yourTelegramChatId"
+archivebox_bot_bot_token: "getMeFromTelegram"
+archivebox_bot_csrfmiddlewaretoken: "getMeFromDevTools"
