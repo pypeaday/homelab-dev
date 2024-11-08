@@ -134,6 +134,10 @@
       community.docker.docker_container:
         name: "sonic"
         state: absent
+    - name: Stop archivebox bot
+      community.docker.docker_container:
+        name: "archivebox-telegram-bot"
+        state: absent
     - name: Stop archivebox scheduler
       community.docker.docker_container:
         name: "archivebox-scheduler"
