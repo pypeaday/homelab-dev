@@ -83,6 +83,11 @@
         command: schedule --foreground --update --every=day
         restart_policy: unless-stopped
         memory: "1g"
+    - name: Template Cookies
+      template:
+        src: cookies.txt
+        dest: "{{ archivebox_data_directory }}/data/cookies.txt"
+      register: template_config
     - name: Template Sonic Config
       template:
         src: sonic.cfg
